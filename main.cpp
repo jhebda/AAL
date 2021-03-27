@@ -7,7 +7,7 @@
 
 using namespace std;
 
-int SIZE = 6;
+int SIZE = 32;
 
 void draw_series(int);            //losuje SIZE cyfr i zapisuje je do pliku
 void load_series(list<int> &);    //wczytuje cyfry z pliku do listy
@@ -16,23 +16,8 @@ list<int> move_4(list<int>, int); //przesuwa cztery kolejne cyfry zaczynajac od 
 int find_min(list<int> &, int);   //zwraca pozycje najmniejszej nieposortowana cyfry
 bool sort(list<int> &);           //sortuje liste
 
-int rotp(int n)
-{
-    int p, k;
-    p = n / 100;
-    k = n % 100;
-    return k * 10000 + p;
-}
 
-int rotd(int n)
-{
-    int p, k;
-    p = n / 100000 * 100000 + n % 10 * 10000;
-    k = (n % 100000) / 10;
-    return p + k;
-}
-
-list<int> to_list(int num)
+list<int> to_list(int num)      //zamienia inta na listę pojedyńczych cyfr
 {
     list<int> list;
     while (num != 0)
@@ -43,7 +28,7 @@ list<int> to_list(int num)
     return list;
 }
 
-int to_int(list<int> list)
+int to_int(list<int> list)      //zamienia listę cyfr na inta
 {
     int num = 0;
     while (!list.empty())
@@ -63,9 +48,9 @@ int main()
     print_list(list);
     cout<<sort(list)<<endl;
 /*
-    set<int> poss;
-    vector<int> vec;
-    int size = 114322;
+    set<int> poss;  //przechowuje permutacje piwrwotnego ciagu
+    vector<int> vec;    //przechowuje nowe mozliwe permutacje
+    int size = 114322;  //pierwotny ciag, pozniej jego dlugosc
     poss.insert(size);
     vec.push_back(size);
     size = to_list(size).size();
@@ -76,8 +61,8 @@ int main()
         //getchar();
         tmp = vec.back();
         vec.pop_back();
-        for (int i = 0; i < size - 4; i++)
-            if (poss.find(to_int(move_4(to_list(tmp), i))) == poss.end())
+        for (int i = 0; i < size - 4; i++)  //przechodzi przez wszystkie mozlowe przesunięcia dla danej dlugosci "polki"
+            if (poss.find(to_int(move_4(to_list(tmp), i))) == poss.end())   //czy permutacja wystspila wczesniej
             {
                 vec.push_back(to_int(move_4(to_list(tmp), i)));
                 poss.insert(to_int(move_4(to_list(tmp), i)));
